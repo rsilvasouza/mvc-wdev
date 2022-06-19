@@ -1,11 +1,21 @@
 <?php
 require __DIR__.'/vendor/autoload.php';
 
-use App\Controller\Pages\Home;
+use App\Http\Router;
+use App\Utils\View;
 
-$obResponse = new \App\Http\Response(200,"Olá Mundo");
+define('URL','http://localhost/mvc');
 
-$obResponse->sendResponse();
+View::init([
+    'URL' => URL
+]);
 
-exit;
-echo Home::getHome();
+//inicia o router
+$obRouter = new Router(URL);
+
+//Inclui as rotas de páginas
+include __DIR__.'/routes/pages.php';
+
+//Imprime response da Rota
+$obRouter->run()->sendResponse();
+
